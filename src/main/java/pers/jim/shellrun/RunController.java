@@ -1,5 +1,7 @@
 package pers.jim.shellrun;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -8,10 +10,19 @@ import java.io.*;
 @RequestMapping("/run")
 public class RunController {
 
+//    @Value("${command.os}")
+//    public String os;
+//
+//    @Value("${command.line}")
+//    public String line;
+    @Autowired
+    private CommandProperties command;
+
     @PostMapping
-    public ReturnModel run(@RequestBody ArgumentModel argument)
+    public ReturnModel run()
             throws InterruptedException , IOException {
-        Process pro = null;
+
+        ArgumentModel argument = new ArgumentModel(command.getOs(), command.getLine());
         Runtime runTime = Runtime.getRuntime();
 
         String[] cmdA;
@@ -22,7 +33,7 @@ public class RunController {
             cmdA = new String[] { argument.getCommand() };
         }
 
-        pro = runTime.exec(cmdA);
+        Process pro = runTime.exec(cmdA);
 
         BufferedReader input = new BufferedReader(new InputStreamReader(pro.getInputStream()));
         PrintWriter output = new PrintWriter(new OutputStreamWriter(pro.getOutputStream()));

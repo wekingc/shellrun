@@ -1,2 +1,5 @@
 server:
   port: 8500
+command:
+  os: "windows"
+  line: "\"C:/Program Files/Git/bin/sh.exe\" C:/Users/Jim/Downloads/gitea-1.9.6-windows-4.0-amd64.exe/1.sh"
